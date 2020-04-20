@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
+
 const Button = ({onClick, text}) =>{
   return(
     <button onClick={onClick}>{text}</button>
@@ -14,21 +15,25 @@ const Statistics = ({good, neutral, bad, all}) => {
     )
   }
   return(
-    <>
+    <table>
       <Statistic text='good' value={good}/>
       <Statistic text='neutral' value={neutral}/>
       <Statistic text='bad' value={bad}/>
       <Statistic text='all' value={all}/>
       <Statistic text='average' value={(good-bad)/all}/>
       <Statistic text='positive' value={good/all}/>
-    </>
+    </table>
   )
 }
 
-
 const Statistic = ({text, value}) => {
   return(
-  <p>{text}  {value}</p>
+  <>  
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
+  </>
   )
 }
 
