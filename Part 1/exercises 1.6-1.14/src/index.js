@@ -7,7 +7,7 @@ const Button = ({onClick, text}) =>{
   )
 }
 
-const Statistic = ({good, neutral, bad, all}) => {
+const Statistics = ({good, neutral, bad, all}) => {
   if(good == 0 && bad === 0 && neutral ===0){
     return(
       <p>No feedback given</p>
@@ -15,30 +15,18 @@ const Statistic = ({good, neutral, bad, all}) => {
   }
   return(
     <>
-      <Display text='good' value={good}/>
-      <Display text='neutral' value={neutral}/>
-      <Display text='bad' value={bad}/>
-      <Display text='all' value={all}/>
-      <Average text='average' value={good-bad} all={all}/>
-      <Positive text='positive' value={good/all}/>
+      <Statistic text='good' value={good}/>
+      <Statistic text='neutral' value={neutral}/>
+      <Statistic text='bad' value={bad}/>
+      <Statistic text='all' value={all}/>
+      <Statistic text='average' value={(good-bad)/all}/>
+      <Statistic text='positive' value={good/all}/>
     </>
   )
 }
 
-const Average = ({value, all, text})=>{
-  const avg = value/all
-  return(
-    <p>{text}  {avg}</p>
-    )
-}
 
-const Positive = ({text, value}) => {
-  return(
-    <p>{text}  {value}</p>
-    )
-}
-
-const Display = ({text, value}) => {
+const Statistic = ({text, value}) => {
   return(
   <p>{text}  {value}</p>
   )
@@ -72,7 +60,7 @@ const App = () =>{
       <div>
         <h2>statistics</h2>
       </div>
-      <Statistic good={good} bad={bad} neutral={neutral} all={all}/>
+      <Statistics good={good} bad={bad} neutral={neutral} all={all}/>
     </>
   )
 }
