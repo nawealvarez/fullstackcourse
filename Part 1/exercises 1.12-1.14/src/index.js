@@ -11,22 +11,29 @@ const App = (props) => {
     const max = Math.floor(props.anecdotes.length-1)
     setSelected(Math.floor(Math.random() * (max - min + 1)) + min)
   }
+  const max = votes.indexOf(Math.max(...votes))
 
   return (
     <>
       <div>
+        <h1>Anecdote of the day</h1>
         <p>{props.anecdotes[selected]}</p>
         <p>has {votes[selected]} votes</p>
       </div>
       <div>
         <button onClick={()=>{
-          console.log('index: ' + selected);
-          let copy = [...votes];
-          copy[selected] +=1;
+          console.log('index: ' + selected)
+          let copy = [...votes]
+          copy[selected] +=1
           setVotes(copy)}}>
             vote
         </button>
         <button onClick={getRandomInt}>next anecdote</button>
+      </div>
+      <div>
+        <h1>Anecdote with most votes</h1>
+        <p>{props.anecdotes[max]}</p>
+        <p>has {votes[max]} votes</p>
       </div>
     </>
   )
