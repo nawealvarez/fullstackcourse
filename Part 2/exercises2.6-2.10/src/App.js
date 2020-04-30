@@ -2,31 +2,38 @@ import React, { useState } from 'react'
 
 const Numbers = ({person}) => {
   return (
-    <p>{person.name}</p>
+    <p>{person.name} {person.number}</p>
   )
 }
 
 const App = () => {
   const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas' }
-  ]) 
+    { 
+      name: 'Arto Hellas', 
+      number:'040-1234567'
+    }]) 
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
 
   const addPerson = (event)=>{
     event.preventDefault()
     const personObject = {
-      name: newName
+      name: newName,
+      number: newNumber
     }
     const found = persons.some(el => el.name === personObject.name);
     if (!found) {
       setPersons(persons.concat(personObject))
-      setNewName('')}
+      setNewName('')
+      setNewNumber('')}
     else {window.alert(personObject.name + ' already exists')}
 
   }
-  const handlePersonChange = (event) => {
-    console.log(event.target.value)
+  const handleNameChange = (event) => {
     setNewName(event.target.value)
+  }
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
   }
   
 
@@ -35,8 +42,11 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
         <div>
-          name: <input value={newName} onChange={handlePersonChange}/>
+          name: <input value={newName} onChange={handleNameChange}/>
         </div>
+        <diV>
+          number: <input value={newNumber} onChange={handleNumberChange}/>
+        </diV>
         <div>
           <button type="submit">add</button>
         </div>
