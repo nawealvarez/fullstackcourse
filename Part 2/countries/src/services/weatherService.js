@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const key = "YourApiKey" 
+const key = "YourApiKey" //here goes the apikey from the url
 const url = "http://api.weatherstack.com"
 
 const cityRequest = city =>
