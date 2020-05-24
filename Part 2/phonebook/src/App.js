@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Filter from './components/Filter';
 import Persons from './components/Persons';
 import PersonsForm from './components/PersonsForm';
+import Notification from './components/Notification';
 import personService from './services/person';
 
 const App = () => {
-  const [ persons, setPersons ] = useState([]) 
-  const [ newName, setNewName ] = useState('')
-  const [ newNumber, setNewNumber ] = useState('')
-  const [searchPerson, setSearchPerson] = useState('')
+  const [ persons, setPersons ] = useState([]); 
+  const [ newName, setNewName ] = useState('');
+  const [ newNumber, setNewNumber ] = useState('');
+  const [searchPerson, setSearchPerson] = useState('');
+  const [notification, setNotification] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     personService
@@ -45,9 +48,15 @@ const App = () => {
         .then(() =>{
           setPersons(persons.filter(person => person.id !== id));
           window.alert(`${name} has been removed!`);
-        }).catch(err => console.log(err));
+        }).catch(() => {
+          setErrorMessage(
+            `Information of ${name} has already removed from the server`);
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000);
+            setPersons(persons.filter(person => person.id !== id));
+          });
     }
-    console.log(answer, id);
   }
   
   const handleAdd = (event)=>{
@@ -63,33 +72,54 @@ const App = () => {
       personService
         .create(personObject)
         .then(returnedPerson => {
-          setPersons(persons.concat(returnedPerson))
-          setNewName('')
-          setNewNumber('')
+          setPersons(persons.concat(returnedPerson));
+          setNotification(`Added ${returnedPerson.name}`);
         }).catch(err => {
-          alert(`theres is an issue with '${personObject.content}'`)
-          console.log(err)
-        })
+          setErrorMessage(err.response.data.error);
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000);
+          setPersons(persons.filter(person => person.id !== personObject.id));
+        });
       }
       else {
         const answer = window.confirm(`${personObject.name} is already added to phonebook, replace the old number with a new one?`)
         if (answer){
-          const changedPerson ={...found, number: newNumber}
+          const changedPerson = {...found, number: newNumber}
           personService
             .update(changedPerson.id, changedPerson)
             .then(returnedPerson =>{
-              setPersons(persons.map(person => person.id !== changedPerson.id ? person : returnedPerson))
-              setNewName('')
-              setNewNumber('')
+              setPersons(persons.map(person =>
+                person.id !== changedPerson.id ? person : returnedPerson));
+              setNotification(`Number of ${changedPerson.name} changed`);
             })
-            .catch(err =>console.log(err));
+            .catch(err =>{
+              setPersons(
+                persons.filter(person =>person.id !== changedPerson.id)
+              );
+              setErrorMessage(
+                `Information of ${changedPerson.name} has already been removed from the server`
+              );
+            });
         }  
       }
-    } 
+      setNewName('');
+      setNewNumber('');
+      setTimeout(()=>{
+        setNotification('');
+        setErrorMessage('');
+      }, 5000);
+    }; 
   
   return (
     <div>
       <h2>Phonebook</h2>
+        {errorMessage 
+        ? <Notification message={errorMessage} isError={true}/>
+        : (notification 
+          ? <Notification message={notification} isError={false}/>
+          :null)}
+
         <Filter searchPerson={searchPerson} handleSearch={handleSearch}/>
         <div>
           <h2>add a new</h2>
