@@ -20,8 +20,9 @@ Participants are expected to have good programming skills, basic knowledge of we
 | ---   | ---     |
 | 0     | 6/6     |
 | 1     | 14/14   |
-| 2     | 20/20   |    
-| __Total__ | __40/171__ | 
+| 2     | 20/20   |
+| 3     | 20/20   |
+| __Total__ | __60/171__ | 
 
 ### [Certification](no certification yet "Certification")
 
@@ -40,3 +41,8 @@ Participants are expected to have good programming skills, basic knowledge of we
 * Getting data from server
 * Altering data in server
 * Adding styles to React app
+### Part 3: Programming a server with NodeJS and Express
+* Node.js and Express
+* Deploying app to internet
+* Saving data to MongoDB
+* Validation and ESLint
