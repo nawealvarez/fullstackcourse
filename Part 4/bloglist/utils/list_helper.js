@@ -27,8 +27,37 @@ const favoriteBlog = blogs => {
     }
 }
 
+const mostBlogs = blogs => {
+    const authors =  {}
+    let mostBlogsVal = 0
+    let authorWithMostBlogs = null
+
+    if (!blogs.length) return null
+
+    blogs.forEach(blog => {
+        if (authors.hasOwnProperty(blog.author)) {
+            authors[blog.author] ++
+        } else {
+            authors[blog.author] = 1
+        }
+    })
+
+    for (author of Object.keys(authors)) {
+        if (authors[author] > mostBlogsVal) {
+            authorWithMostBlogs = author
+            mostBlogsVal = authors[author]
+        }
+    }
+
+    return {
+        author: authorWithMostBlogs,
+        blogs: mostBlogsVal
+    }
+}
+
 module.exports = {
     dummy, 
     totalLikes,
-    favoriteBlog
+    favoriteBlog,
+    mostBlogs
 }
